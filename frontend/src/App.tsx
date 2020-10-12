@@ -1,10 +1,12 @@
 import React from 'react';
+import SignIn from "./Pages/SignIn";
+import './App.scss'
 
 
 function App() { 
     return (
-        <div>
-            <h1>Hello Test</h1>
+        <div className='App'>
+            <SignIn/>
         </div>
     ) 
 }
