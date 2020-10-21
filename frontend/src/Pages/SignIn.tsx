@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { Twitter, Search, PeopleOutline, MessageOutlined, Close } from '@material-ui/icons/';
 import { ModalBlock } from '../components/ModalBlock';
 
-export const useStylesSignIn = makeStyles(() => ({
+export const useStylesSignIn = makeStyles((theme) => ({
   wrapper: {
     display: 'flex',
     height: '100vh',
@@ -57,6 +57,9 @@ export const useStylesSignIn = makeStyles(() => ({
   loginBlockField: {
     marginBottom: 18,
   },
+  registerField: {
+    marginBottom: theme.spacing(5),
+  },
   loginBlockText: {
     display: 'block',
     marginBottom: 10,
@@ -74,18 +77,25 @@ export const useStylesSignIn = makeStyles(() => ({
     marginBottom: 45,
     marginTop: 20,
   },
+  FormControl: {
+    marginBottom: theme.spacing(2)
+  },
 }));
 
 const SignIn = () => {
   const classes = useStylesSignIn();
-  const [visibleSignIn, setVisibleSignIn] = React.useState(false);
+  const [visibleModal, setVisibleModal] = React.useState<'signIn' | 'signUp'>();
 
-  const handleClickOpen = () => {
-    setVisibleSignIn(true);
+  const handleClickOpenSignIn = (): void => {
+    setVisibleModal('signIn');
   };
 
-  const handleClickClose = () => {
-    setVisibleSignIn(false);
+  const handleClickOpenSignUp = (): void => {
+    setVisibleModal('signUp');
+  };
+
+  const handleCloseModal = (): void => {
+    setVisibleModal(undefined);
   };
   return (
     <div className={classes.wrapper}>
@@ -121,14 +131,16 @@ const SignIn = () => {
           <Typography>
             <b className={classes.loginBlockText}>Присоединяйтесь к Твиттеру прямо сейчас</b>
           </Typography>
-          <Button style={{ marginBottom: 20 }} variant="contained" color="primary" fullWidth>
+          <Button onClick={handleClickOpenSignUp} style={{ marginBottom: 20 }} variant="contained" color="primary" fullWidth>
             Зарегистрироваться
           </Button>
-          <Button variant="outlined" color="primary" fullWidth onClick={handleClickOpen}>
+          <Button variant="outlined" color="primary" fullWidth onClick={handleClickOpenSignIn}>
             Войти
           </Button>
-          <ModalBlock visible={visibleSignIn} onClose={handleClickClose} classes={classes} title="Войти в аккаунт">
-            <FormControl component="fieldset" fullWidth>
+          <ModalBlock visible={visibleModal === 'signIn'} onClose={handleCloseModal} classes={classes} title="Войти в аккаунт">
+            <FormControl 
+            className={classes.FormControl}
+            component="fieldset" fullWidth>
               <FormGroup aria-label="position" row>
                 <TextField
                   className={classes.loginBlockField}
@@ -154,8 +166,55 @@ const SignIn = () => {
                   type="password"
                   fullWidth
                 />
-                <Button onClick={handleClickClose} variant="contained" color="primary" fullWidth>
+                <Button onClick={handleCloseModal} variant="contained" color="primary" fullWidth>
                   Войти
+                </Button>
+              </FormGroup>
+            </FormControl>
+          </ModalBlock>
+          <ModalBlock visible={visibleModal === 'signUp'} onClose={handleCloseModal} classes={classes} title="Создайте учетную запись">
+            <FormControl 
+            className={classes.FormControl}
+            component="fieldset" fullWidth>
+              <FormGroup aria-label="position" row>
+                <TextField
+                  className={classes.registerField}
+                  autoFocus
+                  id="name"
+                  label="Имя"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  type="name"
+                  fullWidth
+                />
+                <TextField
+                  className={classes.registerField}
+                  autoFocus
+                  id="email"
+                  label="E-mail"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  type="email"
+                  fullWidth
+                />
+                <TextField
+                  className={classes.registerField}
+                  autoFocus
+                  id="password"
+                  label="Пароль"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  type="password"
+                  fullWidth
+                />
+                <Button onClick={handleCloseModal} variant="contained" color="primary" fullWidth>
+                  Далее
                 </Button>
               </FormGroup>
             </FormControl>
