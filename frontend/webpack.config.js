@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -38,7 +39,7 @@ const optimization = () => {
 
 const getStyleLoaders = (options) => {
   const loaders = [
-    isDev ? 'style-loader' : {
+    {
       loader:MiniCssExtractPlugin.loader,
       options: {
         hmr: isDev,
@@ -62,13 +63,13 @@ const getStyleLoaders = (options) => {
 };
 
 module.exports = {
+  devtool: isDev && 'eval-source-map',
   entry: {
     main: './src/index.tsx',
   },
   output: {
     filename: '[name].[hash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -78,6 +79,7 @@ module.exports = {
       template: './public/index.html',
       favicon: './public/favicon.ico',
       inject: true,
+      cleanStaleWebpackAssets: false,
       minify: {
         collapseWhitespace: isProd,
         removeComments: isProd,
@@ -131,12 +133,22 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               presets: [
-                ['@babel/preset-env', { targets: { node: 'current' } }],
+                ['@babel/preset-env', { targets: [
+                  'last 1 chrome version',
+                  'last 1 safari version',
+                  'last 1 firefox version'
+                ].join(', ') }],
                 '@babel/preset-react',
               ],
             },
           },
-          'eslint-loader',
+          {
+            loader: 'eslint-loader',
+            options: {
+              cache: true
+            }
+          },
+          
         ],
       },
       {
@@ -159,8 +171,9 @@ module.exports = {
   },
   optimization: optimization(),
   devServer: {
+    publicPath: '/',
     port: 3000,
     hot: isDev,
-    historyApiFallback: true
+    historyApiFallback: true,
   },
 };
