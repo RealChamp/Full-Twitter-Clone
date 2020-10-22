@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -69,6 +68,7 @@ module.exports = {
   output: {
     filename: '[name].[hash].js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -155,11 +155,12 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.json', '.wasm'],
   },
   optimization: optimization(),
   devServer: {
-    port: 8000,
+    port: 3000,
     hot: isDev,
+    historyApiFallback: true
   },
 };
