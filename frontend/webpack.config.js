@@ -45,10 +45,6 @@ const getStyleLoaders = (options) => {
       ? 'style-loader'
       : {
           loader: MiniCssExtractPlugin.loader,
-          /* options: {
-        hmr: isDev,
-        reloadAll: isDev,
-      }, */
         },
     'cache-loader',
     {
