@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -13,8 +13,11 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
+const smp = new SpeedMeasurePlugin();
+
 const optimization = () => {
   const config = {
+    runtimeChunk: true,
     splitChunks: {
       chunks: 'all',
     },
@@ -36,16 +39,14 @@ const optimization = () => {
   return config;
 };
 
-
 const getStyleLoaders = (options) => {
   const loaders = [
-    isDev ? 'style-loader' : {
-      loader:MiniCssExtractPlugin.loader,
-      options: {
-        hmr: isDev,
-        reloadAll: isDev,
-      },
-    },
+    isDev
+      ? 'style-loader'
+      : {
+          loader: MiniCssExtractPlugin.loader,
+        },
+    'cache-loader',
     {
       loader: 'css-loader',
       options: options,
@@ -58,11 +59,13 @@ const getStyleLoaders = (options) => {
         },
       },
     },
+    'sass-loader',
   ];
   return loaders;
 };
 
-module.exports = {
+module.exports = smp.wrap({
+  devtool: isDev && 'eval-cheap-module-source-map',
   entry: {
     main: './src/index.tsx',
   },
@@ -78,6 +81,7 @@ module.exports = {
       template: './public/index.html',
       favicon: './public/favicon.ico',
       inject: true,
+      cleanStaleWebpackAssets: false,
       minify: {
         collapseWhitespace: isProd,
         removeComments: isProd,
@@ -93,22 +97,16 @@ module.exports = {
       {
         test: sassRegex,
         exclude: sassModuleRegex,
-        use: getStyleLoaders(
-          {
-            importLoaders: 3,
-          },
-          'sass-loader',
-        ),
+        use: getStyleLoaders({
+          importLoaders: 3,
+        }),
       },
       {
         test: sassModuleRegex,
-        use: getStyleLoaders(
-          {
-            importLoaders: 3,
-            modules: true,
-          },
-          'sass-loader',
-        ),
+        use: getStyleLoaders({
+          importLoaders: 3,
+          modules: true,
+        }),
       },
       {
         test: cssRegex,
@@ -125,41 +123,65 @@ module.exports = {
       },
       {
         test: /\.(js|jsx)/,
-        exclude: /(node_modules|bower_components)/,
+        include: path.resolve(__dirname, 'src'),
         use: [
+          'cache-loader',
           {
-            loader: 'babel-loader',
+            loader: 'babel-loader?cacheDirectory',
             options: {
               presets: [
-                ['@babel/preset-env', { targets: { node: 'current' } }],
+                [
+                  '@babel/preset-env',
+                  {
+                    targets: [
+                      'last 1 chrome version',
+                      'last 1 safari version',
+                      'last 1 firefox version',
+                    ].join(', '),
+                  },
+                ],
                 '@babel/preset-react',
               ],
             },
           },
-          'eslint-loader',
+          {
+            loader: 'eslint-loader',
+            /* options: {
+              cache: true
+            } */
+          },
         ],
+        exclude: /(node_modules)/
       },
       {
         test: /\.(ts|tsx)/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
+        include: path.resolve(__dirname, 'src'),
+        use: [
+          'cache-loader',
+          {
+            loader: 'ts-loader',
+            options: {
+              happyPackMode: true,
+              transpileOnly: true,
+            },
+          },
+        ],
+        exclude: /(node_modules)/,
       },
       {
-        test: /\.(png|jpe?g|svg|gif)/,
-        use: ['file-loader'],
-      },
-      {
-        test: /\.(ttf|woff|woff2|svg)/,
-        use: ['file-loader'],
+        test: /\.(png|jpe?g|svg|gif|ttf|woff|woff2|svg)/,
+        use: ['cache-loader', 'file-loader'],
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
   optimization: optimization(),
   devServer: {
-    port: 8000,
+    publicPath: '/',
+    port: 3000,
     hot: isDev,
+    historyApiFallback: true,
   },
-};
+});

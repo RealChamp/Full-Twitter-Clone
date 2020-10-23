@@ -23,8 +23,8 @@ export const useStylesSignIn = makeStyles((theme) => ({
     left: '50%',
     top: '53%',
     transform: 'translate(-50%,-50%)',
-    width: '350%',
-    height: '350%',
+    width: '260%',
+    height: '260%',
   },
   blueSideListInfo: {
     position: 'relative',
@@ -82,7 +82,7 @@ export const useStylesSignIn = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = () => {
+export const SignIn: React.FC = (): React.ReactElement => {
   const classes = useStylesSignIn();
   const [visibleModal, setVisibleModal] = React.useState<'signIn' | 'signUp'>();
 
@@ -156,7 +156,6 @@ const SignIn = () => {
                 />
                 <TextField
                   className={classes.loginBlockField}
-                  autoFocus
                   id="password"
                   label="Пароль"
                   InputLabelProps={{
@@ -191,7 +190,6 @@ const SignIn = () => {
                 />
                 <TextField
                   className={classes.registerField}
-                  autoFocus
                   id="email"
                   label="E-mail"
                   InputLabelProps={{
@@ -203,7 +201,6 @@ const SignIn = () => {
                 />
                 <TextField
                   className={classes.registerField}
-                  autoFocus
                   id="password"
                   label="Пароль"
                   InputLabelProps={{
@@ -225,4 +222,3 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
