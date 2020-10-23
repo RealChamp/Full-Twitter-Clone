@@ -1,5 +1,15 @@
 import React from 'react';
-import { Grid, IconButton, makeStyles, Typography, Container } from '@material-ui/core';
+import {
+  Grid,
+  IconButton,
+  makeStyles,
+  Typography,
+  Container,
+  InputBase,
+  withStyles,
+  createStyles,
+  Paper,
+} from '@material-ui/core';
 import {
   Twitter,
   Search,
@@ -15,10 +25,10 @@ export const useHomeStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   logo: {
-      margin: '10px 0'
+    margin: '10px 0',
   },
   logoIcon: {
-      fontSize: 36,
+    fontSize: 36,
   },
   sideNavList: {
     listStyle: 'none',
@@ -37,7 +47,33 @@ export const useHomeStyles = makeStyles((theme) => ({
   sideNavListItemIcon: {
     fontSize: 28,
   },
+  tweetsWrapper: {
+    borderRadius: 0,
+    height: '100%',
+    borderTop: '0',
+    borderBottom: '0',
+  },
+  tweetsHeader: {
+      borderTop: '0',
+      borderLeft: '0',
+      borderRight: '0',
+      borderRadius: 0,
+      padding: '15px 15px',
+
+      '& h6': {
+          fontWeight: 700
+      }
+  }
 }));
+
+const SearchTextField = withStyles(() => createStyles({
+    input: {
+        borderRadius: 30,
+        backgroundColor: '#E6ECF0',
+        height: 45,
+        padding: '0 12px',
+    },
+}))(InputBase);
 
 export const Home: React.FC = () => {
   const classes = useHomeStyles();
@@ -102,10 +138,14 @@ export const Home: React.FC = () => {
           </ul>
         </Grid>
         <Grid item xs={6}>
-          <h2>center</h2>
+          <Paper className={classes.tweetsWrapper} style={{height: '100%'}} variant='outlined'>
+              <Paper className={classes.tweetsHeader} variant='outlined'>
+                <Typography variant='h6'>Главная</Typography>
+              </Paper>
+          </Paper>
         </Grid>
         <Grid item xs={3}>
-          <h2>Right</h2>
+          <SearchTextField fullWidth placeholder="Поиск в Твиттере" />
         </Grid>
       </Grid>
     </Container>
