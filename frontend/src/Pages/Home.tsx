@@ -21,6 +21,7 @@ import {
     PersonOutline,
 } from '@material-ui/icons/';
 import grey from '@material-ui/core/colors/grey'
+import {SideMenu} from "../components/SideMenu";
 
 export const useHomeStyles = makeStyles((theme: Theme) => ({
     wrapper: {
@@ -114,74 +115,7 @@ export const Home: React.FC = () => {
         <Container className={classes.wrapper} maxWidth="lg">
             <Grid container spacing={2}>
                 <Grid item xs={3}>
-                    <ul className={classes.sideNavList}>
-                        <li className={classes.sideNavListItem}>
-                            <IconButton className={classes.logo}
-                                        color="primary">
-                                <Twitter className={classes.logoIcon}/>
-                            </IconButton>
-                        </li>
-                        <li className={classes.sideNavListItem}>
-                            <IconButton>
-                                <Search
-                                    className={classes.sideNavListItemIcon}/>
-                            </IconButton>
-                            <Typography className={classes.sideNavListItemLabel}
-                                        variant="h6">
-                                Поиск
-                            </Typography>
-                        </li>
-                        <li className={classes.sideNavListItem}>
-                            <IconButton>
-                                <NotificationsOutlined
-                                    className={classes.sideNavListItemIcon}/>
-                            </IconButton>
-                            <Typography className={classes.sideNavListItemLabel}
-                                        variant="h6">
-                                Уведомления
-                            </Typography>
-                        </li>
-                        <li className={classes.sideNavListItem}>
-                            <IconButton>
-                                <EmailOutlined
-                                    className={classes.sideNavListItemIcon}/>
-                            </IconButton>
-                            <Typography className={classes.sideNavListItemLabel}
-                                        variant="h6">
-                                Сообщения
-                            </Typography>
-                        </li>
-                        <li className={classes.sideNavListItem}>
-                            <IconButton>
-                                <BookmarkBorder
-                                    className={classes.sideNavListItemIcon}/>
-                            </IconButton>
-                            <Typography className={classes.sideNavListItemLabel}
-                                        variant="h6">
-                                Закладки
-                            </Typography>
-                        </li>
-                        <li className={classes.sideNavListItem}>
-                            <IconButton>
-                                <ListAlt
-                                    className={classes.sideNavListItemIcon}/>
-                            </IconButton>
-                            <Typography className={classes.sideNavListItemLabel}
-                                        variant="h6">
-                                Список
-                            </Typography>
-                        </li>
-                        <li className={classes.sideNavListItem}>
-                            <IconButton>
-                                <PersonOutline
-                                    className={classes.sideNavListItemIcon}/>
-                            </IconButton>
-                            <Typography className={classes.sideNavListItemLabel}
-                                        variant="h6">
-                                Профиль
-                            </Typography>
-                        </li>
-                    </ul>
+                    <SideMenu classes={classes}/>
                 </Grid>
                 <Grid item xs={6}>
                     <Paper className={classes.tweetsWrapper}
