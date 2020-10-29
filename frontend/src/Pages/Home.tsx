@@ -2,7 +2,6 @@ import React from 'react';
 import {Tweet} from "../components/Tweet";
 import {
     Grid,
-    IconButton,
     makeStyles,
     Typography,
     Container,
@@ -11,15 +10,6 @@ import {
     createStyles,
     Paper, Theme,
 } from '@material-ui/core';
-import {
-    Twitter,
-    Search,
-    NotificationsOutlined,
-    EmailOutlined,
-    BookmarkBorder,
-    ListAlt,
-    PersonOutline,
-} from '@material-ui/icons/';
 import grey from '@material-ui/core/colors/grey'
 import {SideMenu} from "../components/SideMenu";
 
@@ -34,6 +24,7 @@ export const useHomeStyles = makeStyles((theme: Theme) => ({
         fontSize: 36,
     },
     sideNavList: {
+        width: 230,
         listStyle: 'none',
         padding: 0,
         margin: 0,
@@ -58,6 +49,9 @@ export const useHomeStyles = makeStyles((theme: Theme) => ({
             height: 50,
             transition: 'all 250ms ease',
         },
+        '&:last-of-type': {
+            display: 'block',
+        },
     },
     sideNavListItemLabel: {
         fontSize: 20,
@@ -65,7 +59,11 @@ export const useHomeStyles = makeStyles((theme: Theme) => ({
         marginLeft: 8,
     },
     sideNavListItemIcon: {
-        fontSize: 28,
+        fontSize: 32,
+    },
+    sideNavTweetButton: {
+        padding: theme.spacing(3),
+        marginTop: theme.spacing(2)
     },
     tweetsWrapper: {
         borderRadius: 0,

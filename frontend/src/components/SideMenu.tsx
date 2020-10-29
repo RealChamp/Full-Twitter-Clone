@@ -1,5 +1,5 @@
 import React from "react"
-import {IconButton, Typography} from "@material-ui/core";
+import {Button, IconButton, Typography} from "@material-ui/core";
 import {
     BookmarkBorder,
     EmailOutlined,
@@ -18,12 +18,14 @@ interface SideMenuProps {
 export const SideMenu: React.FC<SideMenuProps> = ({classes}: SideMenuProps): React.ReactElement => {
     return (
         <ul className={classes.sideNavList}>
-            <li className={classes.sideNavListItem}>
-                <IconButton className={classes.logo}
-                            color="primary">
-                    <Twitter className={classes.logoIcon}/>
-                </IconButton>
-            </li>
+            <div>
+                <li className={classes.sideNavListItem}>
+                    <IconButton className={classes.logo}
+                                color="primary">
+                        <Twitter className={classes.logoIcon}/>
+                    </IconButton>
+                </li>
+            </div>
             <li className={classes.sideNavListItem}>
                 <div>
                     <Search
@@ -83,6 +85,9 @@ export const SideMenu: React.FC<SideMenuProps> = ({classes}: SideMenuProps): Rea
                         Профиль
                     </Typography>
                 </div>
+            </li>
+            <li className={classes.sideNavListItem}>
+                <Button className={classes.sideNavTweetButton} variant='contained' color='primary' fullWidth>Твитнуть</Button>
             </li>
         </ul>
     )
