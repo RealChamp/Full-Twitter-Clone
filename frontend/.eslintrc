@@ -1,23 +1,37 @@
 {
-    "rules": {
-        "no-unused-vars": "warn"
-    },
-    "env": {
-        "es6": true,
-        "browser": true
-    },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react-hooks/recommended",
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
-    "settings": {
-        "react": {
-            "version": "lastest"
-        },
-        "import/parsers": {
-            "@typescript-eslint/parser": [".ts", ".tsx"]
-        }
+  "rules": {
+    "no-unused-vars": "warn"
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.js"
+      ],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
     }
+  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "latest"
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        "*.ts",
+        "*.tsx"
+      ]
+    }
+  }
 }
