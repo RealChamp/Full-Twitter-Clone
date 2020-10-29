@@ -19,7 +19,7 @@ const optimization = () => {
   const config = {
     runtimeChunk: true,
     splitChunks: {
-      chunks: 'all',
+        chunks: 'all',
     },
   };
   if (isProd) {
@@ -169,7 +169,7 @@ module.exports = smp.wrap({
         exclude: /(node_modules)/,
       },
       {
-        test: /\.(png|jpe?g|svg|gif|ttf|woff|woff2|svg)/,
+        test: /\.(png|jpe?g|svg|gif|ttf|woff|woff2)/,
         use: ['cache-loader', 'file-loader'],
       },
     ],
