@@ -39,8 +39,25 @@ export const useHomeStyles = makeStyles((theme: Theme) => ({
         margin: 0,
     },
     sideNavListItem: {
-        display: 'flex',
-        alignItems: 'center',
+        display: 'inline-block',
+        cursor: 'pointer',
+        '&:hover div': {
+            backgroundColor: 'rgba(29,161,242,0.1)',
+            '& h6': {
+                color: theme.palette.primary.main,
+            },
+            '& svg path': {
+                fill: theme.palette.primary.main,
+            },
+        },
+        '& div': {
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '0 20px 0 15px',
+            borderRadius: 30,
+            height: 50,
+            transition: 'all 250ms ease',
+        },
     },
     sideNavListItemLabel: {
         fontSize: 20,
@@ -124,14 +141,16 @@ export const Home: React.FC = () => {
                                variant='outlined'>
                             <Typography variant='h6'>Главная</Typography>
                         </Paper>
-                        <Tweet
-                            classes={classes}
-                            user={{
-                                fullname: 'Матвей',
-                                username: 'realchamp',
-                                avatarUrl: 'https://randomuser.me/api/portraits/women/44.jpg'
-                            }}
-                            text='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cupiditate dolores eum molestiae placeat, quaerat quam quisquam repellendus rerum sint.'/>
+                        {...new Array(5).fill(
+                            <Tweet
+                                classes={classes}
+                                user={{
+                                    fullname: 'Матвей',
+                                    username: 'realchamp',
+                                    avatarUrl: 'https://randomuser.me/api/portraits/women/44.jpg'
+                                }}
+                                text='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cupiditate dolores eum molestiae placeat, quaerat quam quisquam repellendus rerum sint.'/>
+                        )}
                     </Paper>
                 </Grid>
                 <Grid item xs={3}>
