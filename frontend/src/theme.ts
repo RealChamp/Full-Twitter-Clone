@@ -29,6 +29,9 @@ import {red} from '@material-ui/core/colors'
          background: {
              default: '#fff',
          },
+         text: {
+             primary: '#14171a',
+         },
      },
      overrides: {
          MuiButton: {
